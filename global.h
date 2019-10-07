@@ -11,6 +11,7 @@
 int neigh[NSITES*6];
 int nsites,ncells;
 double temp,beta;
+double j2;
 double sx[NSITES], sy[NSITES], sz[NSITES];
 int lx,ly,lz;
 
