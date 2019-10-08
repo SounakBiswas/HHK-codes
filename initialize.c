@@ -1,5 +1,5 @@
 #include "global.h"
-#define next_nbr (x,y,z,i,j,k) (lx+x+i)%lx+ ((ly+y+j)%ly)*lx +((lz+z+k)%lz)*lx*ly;
+#define next_nbr(x,y,z,i,j,k) (LX+x+i)%LX+ ((LY+y+j)%LY)*LX +((LZ+z+k)%LZ)*LX*LY;
 
 void initialize(){
   int i;
@@ -8,8 +8,22 @@ void initialize(){
   temp=TEMP;
   beta=1.0/temp;
   lx=LX; ly=LY; lz=LZ;
+  j2=J2;
   int x,y,z;
+  double theta,phi;
+  for(i=0;i<nsites;i++){
+	  theta=M_PI*rand()/(1.0*RAND_MAX);
+          phi=2*M_PI*rand()/(1.0*RAND_MAX);
+	  sz[i]=cos(theta);
+	  sx[i]=sin(theta)*cos(phi);
+	  sy[i]=sin(theta)*sin(phi);
+  }
+	  
 
+}
+void make_lattice(){
+  int i;
+  int x,y,z;
   for(i=0;i<ncells;i++){
     z=(i/(lx*ly));
     y=(i%(lx*ly))/lx;
@@ -106,8 +120,5 @@ void initialize(){
     neigh[(i*12+11)*6+5 ] = 12*next_nbr(x,y,z,1,1,0) + 3;
   
   }
-
-  
-
 
 }
