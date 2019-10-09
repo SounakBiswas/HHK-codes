@@ -15,7 +15,7 @@ void over_relaxation(){
       hz+= -sz[neigh[6*i+j]];
     }
 
-    for(j=5; j<6; j++){
+    for(j=4; j<6; j++){
       hx+= -j2*sx[neigh[6*i+j]];
       hy+= -j2*sy[neigh[6*i+j]];
       hz+= -j2*sz[neigh[6*i+j]];
@@ -54,7 +54,7 @@ void heatbath(){
       hz+= -sz[neigh[6*i+j]];
     }
 
-    for(j=5; j<6; j++){
+    for(j=4; j<6; j++){
       hx+= -j2*sx[neigh[6*i+j]];
       hy+= -j2*sy[neigh[6*i+j]];
       hz+= -j2*sz[neigh[6*i+j]];
@@ -94,6 +94,7 @@ void heatbath(){
   }
   energy=0;
   for(i=0;i<nsites;i++){ 
+    hx=hy=hz=0;
     for(j=0; j<4; j++){
       hx+= -sx[neigh[6*i+j]];
       hy+= -sy[neigh[6*i+j]];
@@ -105,10 +106,8 @@ void heatbath(){
       hy+= -j2*sy[neigh[6*i+j]];
       hz+= -j2*sz[neigh[6*i+j]];
     }
-    energy+=sx[i]*hx+sy[i]*hy+sz[i]*hz;
-
-  
-  
+    energy+= (sx[i]*hx+sy[i]*hy+sz[i]*hz)/2.0;
   }
+  energy2=energy*energy;
 
 }

@@ -11,6 +11,11 @@ void initialize(){
   j2=J2;
   int x,y,z;
   double theta,phi;
+  taumax=TAUMAX;
+  binsize=BINSIZE;
+  binno=0;
+  nmeasure=0;
+  nautocorr=0;
   for(i=0;i<nsites;i++){
 	  theta=M_PI*rand()/(1.0*RAND_MAX);
           phi=2*M_PI*rand()/(1.0*RAND_MAX);
@@ -18,7 +23,9 @@ void initialize(){
 	  sx[i]=sin(theta)*cos(phi);
 	  sy[i]=sin(theta)*sin(phi);
   }
-	  
+  sprintf(binfname,"./outfiles/bin_L%dT%.4fJ2%.4f.dat",lx,temp,j2);
+  sprintf(autofname,"./outfiles/auto_L%dT%.4fJ2%.4f.dat",lx,temp,j2);
+  sprintf(fourierfname,"./outfiles/fourier_L%dT%.4fJ2%.4f.dat",lx,temp,j2);
 
 }
 void make_lattice(){
