@@ -113,7 +113,3 @@ void fft3d(double *ar,double *ai,int sign){
 
 }//main
 
-void main(){
-  ;
-
-}

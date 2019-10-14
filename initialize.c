@@ -7,10 +7,15 @@ void initialize(){
   nsites=NSITES;
   temp=TEMP;
   beta=1.0/temp;
-  lx=LX; ly=LY; lz=LZ;
+  lx=LX; 
+  ly=LY; 
+  lz=LZ;
+  printf("%d %d %d\n",lx,ly,lz);
   j2=J2;
   int x,y,z;
   double theta,phi;
+  sq_samples=(int)(MCSTEPS/(1.0*SFACM));
+  sq_measure=0;
   taumax=TAUMAX;
   binsize=BINSIZE;
   binno=0;
@@ -25,7 +30,7 @@ void initialize(){
   }
   sprintf(binfname,"./outfiles/bin_L%dT%.4fJ2%.4f.dat",lx,temp,j2);
   sprintf(autofname,"./outfiles/auto_L%dT%.4fJ2%.4f.dat",lx,temp,j2);
-  sprintf(fourierfname,"./outfiles/fourier_L%dT%.4fJ2%.4f.dat",lx,temp,j2);
+  sprintf(sfacnamepref,"./sfacs/sfac_L%dT%.4fJ2%.4f",lx,temp,j2);
   double hx,hy,hz;
   
   energy=0;
@@ -45,6 +50,9 @@ void initialize(){
     energy+= (sx[i]*hx+sy[i]*hy+sz[i]*hz)/2.0;
   }
   energy2=energy*energy;
+
+  for(i=0;i<78*NCELLS;i++)
+    sqasqbre[i]=sqasqbim[i]=0.0;
 
 }
 void make_lattice(){

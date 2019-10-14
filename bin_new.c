@@ -2,6 +2,68 @@
 double min(double a,double b){
 	return a*(a<b)+b*(b<=a);
 }
+void measure_sq(){
+  sq_measure++;
+  int i,j;
+  int cell;
+  int idx;// coordinates of lower triangular matrix
+  int x,y,z;
+  int mx,my,mz;
+  int idx1,idx2;// coordinates of q and minus q
+  int mcell;// unit cell at -q
+  int strides[12]={0,12,23,33,42,50,57,63,68,72,75,77};
+  for(i=0;i<12;i++){
+     for(j=0;j<=i;j++){
+       idx=strides[i]+j;
+	 for(x=0;x<lx;x++){
+	   for(y=0;y<ly;y++){
+	    for(z=0;z<lz;z++) { 
+	      cell=x+lx*y+lx*ly*z;
+	      printf("lprep: %d %d %d \n",lx,ly,lz);
+	      printf("prep: %d %d %d \n",x,y,z);
+	      mcell=(lx-x)%lx+((ly-y)%ly)*lx+((lz-z)%lz)*lx*ly;
+	      idx1=12*cell+i;
+	      idx2=12*mcell+j;
+	      if(idx2>=nsites){
+		printf("%d %d %d %d\n",i,j,cell,mcell);
+		printf("%d %d %d \n",x,y,z);
+		printf("%d %d %d \n",lx,ly,lz);
+		printf("%d %d %d \n",(lx-x)%lx,(ly-y)%ly,(lz-z)%lz);
+	      }
+	      //assert(idx1<nsites);
+	      //assert(idx2<nsites);
+	      assert(idx<78*ncells);
+
+              sqasqbre[idx*NCELLS+cell]+= (sxqr[idx1]*sxqr[idx2]-sxqi[idx1]*sxqi[idx2]);
+              sqasqbre[idx*NCELLS+cell]+= (syqr[idx1]*syqr[idx2]-syqi[idx1]*syqi[idx2]);
+              sqasqbre[idx*NCELLS+cell]+= (szqr[idx1]*szqr[idx2]-szqi[idx1]*szqi[idx2]);
+
+              sqasqbim[idx*NCELLS+cell]+= (sxqr[idx1]*sxqi[idx2]+sxqi[idx1]*sxqr[idx2]);
+              sqasqbim[idx*NCELLS+cell]+= (syqr[idx1]*syqi[idx2]+syqi[idx1]*syqr[idx2]);
+              sqasqbim[idx*NCELLS+cell]+= (szqr[idx1]*szqi[idx2]+szqi[idx1]*szqr[idx2]);
+	    }//z
+	   }//y
+	 }//x
+     }//j
+  }//i
+
+  if(sq_measure%(sq_samples/5)==0){
+    FILE *fp;
+    for(i=0;i<12;i++){
+       for(j=0;j<=i;j++){
+         idx=strides[i]+j;
+	 sprintf(sfacname,"%si%dj%d.dat",sfacnamepref,i,j);
+	 fp=fopen(sfacname,"w");
+	 for(cell=0;cell<NCELLS;cell++)
+	   fprintf(fp,"%f %f\n",sqasqbre[idx*NCELLS+cell],sqasqbim[idx*NCELLS+cell]);
+
+       }
+       fclose(fp);
+    }
+
+  }
+
+}
 void bin(){
   if(nmeasure%binsize==0){
     energy_bin=0;

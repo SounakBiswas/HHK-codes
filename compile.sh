@@ -1,1 +1,1 @@
-gcc main.c initialize.c bin.c updates.c global.h -lm -g 
+gcc main.c initialize.c bin_new.c updates.c fft3d.c global.h -lm -g 
