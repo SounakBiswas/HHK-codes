@@ -13,26 +13,26 @@ void measure_sq(){
   int mcell;// unit cell at -q
   int strides[12]={0,12,23,33,42,50,57,63,68,72,75,77};
   for(i=0;i<12;i++){
-     for(j=0;j<=i;j++){
-       idx=strides[i]+j;
+     for(j=i;j<12;j++){
+       idx=strides[i]+j-i;
 	 for(x=0;x<lx;x++){
 	   for(y=0;y<ly;y++){
 	    for(z=0;z<lz;z++) { 
 	      cell=x+lx*y+lx*ly*z;
-	      printf("lprep: %d %d %d \n",lx,ly,lz);
-	      printf("prep: %d %d %d \n",x,y,z);
+	      //printf("lprep: %d %d %d \n",lx,ly,lz);
+	      //printf("prep: %d %d %d \n",x,y,z);
 	      mcell=(lx-x)%lx+((ly-y)%ly)*lx+((lz-z)%lz)*lx*ly;
 	      idx1=12*cell+i;
 	      idx2=12*mcell+j;
-	      if(idx2>=nsites){
-		printf("%d %d %d %d\n",i,j,cell,mcell);
-		printf("%d %d %d \n",x,y,z);
-		printf("%d %d %d \n",lx,ly,lz);
-		printf("%d %d %d \n",(lx-x)%lx,(ly-y)%ly,(lz-z)%lz);
-	      }
-	      //assert(idx1<nsites);
-	      //assert(idx2<nsites);
-	      assert(idx<78*ncells);
+	      //if(idx2>=nsites){
+	      //  printf("%d %d %d %d\n",i,j,cell,mcell);
+	      //  printf("%d %d %d \n",x,y,z);
+	      //  printf("%d %d %d \n",lx,ly,lz);
+	      //  printf("%d %d %d \n",(lx-x)%lx,(ly-y)%ly,(lz-z)%lz);
+	      //}
+	      ////assert(idx1<nsites);
+	      ////assert(idx2<nsites);
+	      //assert(idx<78*ncells);
 
               sqasqbre[idx*NCELLS+cell]+= (sxqr[idx1]*sxqr[idx2]-sxqi[idx1]*sxqi[idx2]);
               sqasqbre[idx*NCELLS+cell]+= (syqr[idx1]*syqr[idx2]-syqi[idx1]*syqi[idx2]);

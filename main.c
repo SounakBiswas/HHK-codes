@@ -48,6 +48,6 @@ void main(){
 	    measure_sq();
 
     }
-    printf("%d\n",i);
+    //printf("%d\n",i);
   }
 }
