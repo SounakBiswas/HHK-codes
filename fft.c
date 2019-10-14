@@ -1,7 +1,7 @@
 #include <stdlib.h> 
 #include <stdio.h> 
 #include <math.h>
-#define LEN 8
+#define LEN 64
 void fft(double *ar,double *ai,int n,int sign){
   int i,j,k;
   double tempr,tempi;
@@ -9,7 +9,6 @@ void fft(double *ar,double *ai,int n,int sign){
   int m;
   FILE *fp;
   for(i=0;i<n;i++){
-    printf("%d %d\n",i,iprime);
     if(iprime>i){
       tempr=ar[i];
       ar[i]=ar[iprime];
@@ -37,9 +36,7 @@ void fft(double *ar,double *ai,int n,int sign){
     wr=1.0; wi=0.0;
     for(i=0;i<n;i++){
       j=i+k;
-      //printf("lv %d i %d j %d\n",k,i,j);
       tempr=ar[i];tempi=ai[i];
-      //a[i]=a[i]+w*a[j]
       termr=wr*ar[j]-wi*ai[j];
       termi=wi*ar[j]+wr*ai[j];
       ar[i]=ar[i]+termr;
@@ -50,7 +47,6 @@ void fft(double *ar,double *ai,int n,int sign){
       tempr=wr;
       wr=   wr*cos(M_PI/(1.0*k)) -wi*sin(M_PI/(1.0*k));
       wi=tempr*sin(M_PI/(1.0*k)) +wi*cos(M_PI/(1.0*k));
-      //printf("increment alpha=2pi/%d wr=%f wi=%f\n",2*k,wr,wi);
 
       dummy++;
       if(dummy==k){
@@ -71,8 +67,8 @@ void main(){
   int i;
   FILE *fp;
   for(i=0;i<LEN;i++){
-    array[i]=cos(2*M_PI*i*3.0/(1.0*LEN));
-   arrayi[i]=sin(2*M_PI*i*3.0/(1.0*LEN));
+    array[i]=cos(2*M_PI*i*10.0/(1.0*LEN));
+   arrayi[i]=-sin(2*M_PI*i*10.0/(1.0*LEN));
   }
   fft(array,arrayi,LEN,1);
   fp=fopen("testdata.dat","w");

@@ -2,7 +2,7 @@
 #define next_nbr(x,y,z,i,j,k) (LX+x+i)%LX+ ((LY+y+j)%LY)*LX +((LZ+z+k)%LZ)*LX*LY;
 
 void initialize(){
-  int i;
+  int i,j;
   ncells=NCELLS;
   nsites=NSITES;
   temp=TEMP;
@@ -26,6 +26,25 @@ void initialize(){
   sprintf(binfname,"./outfiles/bin_L%dT%.4fJ2%.4f.dat",lx,temp,j2);
   sprintf(autofname,"./outfiles/auto_L%dT%.4fJ2%.4f.dat",lx,temp,j2);
   sprintf(fourierfname,"./outfiles/fourier_L%dT%.4fJ2%.4f.dat",lx,temp,j2);
+  double hx,hy,hz;
+  
+  energy=0;
+  for(i=0;i<nsites;i++){ 
+    hx=hy=hz=0;
+    for(j=0; j<4; j++){
+      hx+= -sx[neigh[6*i+j]];
+      hy+= -sy[neigh[6*i+j]];
+      hz+= -sz[neigh[6*i+j]];
+    }
+
+    for(j=5; j<6; j++){
+      hx+= -j2*sx[neigh[6*i+j]];
+      hy+= -j2*sy[neigh[6*i+j]];
+      hz+= -j2*sz[neigh[6*i+j]];
+    }
+    energy+= (sx[i]*hx+sy[i]*hy+sz[i]*hz)/2.0;
+  }
+  energy2=energy*energy;
 
 }
 void make_lattice(){

@@ -66,24 +66,21 @@ void autocorr(double obs1, double obs2,double obs3){
   if(nautocorr%(MCSTEPS/5)==0){
     FILE *fp;
     fp=fopen(autofname,"w");
-    eo1=avo1sq/(1.0*nautocorr)-avo1*avo1/(1.0*nautocorr*nautocorr);
-    eo2=avo2sq/(1.0*nautocorr)-avo2*avo2/(1.0*nautocorr*nautocorr);
-    eo3=avo3sq/(1.0*nautocorr)-avo3*avo3/(1.0*nautocorr*nautocorr);
     for(i=0;i<taumax;i++){ 
       autocorr1[i]=(ao1[i]/(1.0*nsamples[i]))-avo1*avo1/(1.0*nautocorr*nautocorr);
-      autocorr1[i]=autocorr1[i]/(eo1);
+      autocorr1[i]=autocorr1[i]/(autocorr1[0]);
 
       autocorr2[i]=(ao2[i]/(1.0*nsamples[i]))-avo2*avo2/(1.0*nautocorr*nautocorr);
-      autocorr2[i]=autocorr2[i]/eo2;
+      autocorr2[i]=autocorr2[i]/autocorr2[0];
 
       autocorr3[i]=(ao3[i]/(1.0*nsamples[i]))-avo3*avo3/(1.0*nautocorr*nautocorr);
-      autocorr3[i]=autocorr3[i]/eo3;
+      autocorr3[i]=autocorr3[i]/autocorr3[0];
 
-      autoerr1[i]=(aeo1[i]/(1.0*nsamples[i])-ao1[i]*ao1[i]/(1.0*nsamples[i]*nsamples[i]))/(1.0*eo1);
-      autoerr2[i]=(aeo2[i]/(1.0*nsamples[i])-ao2[i]*ao2[i]/(1.0*nsamples[i]*nsamples[i]))/(1.0*eo2);
-      autoerr3[i]=(aeo3[i]/(1.0*nsamples[i])-ao3[i]*ao3[i]/(1.0*nsamples[i]*nsamples[i]))/(1.0*eo3);
+      autoerr1[i]=(aeo1[i]/(1.0*nsamples[i])-ao1[i]*ao1[i]/(1.0*nsamples[i]*nsamples[i]))/(1.0*autocorr1[0]*autocorr1[0]);
+      autoerr2[i]=(aeo2[i]/(1.0*nsamples[i])-ao2[i]*ao2[i]/(1.0*nsamples[i]*nsamples[i]))/(1.0*autocorr2[0]*autocorr2[0]);
+      autoerr3[i]=(aeo3[i]/(1.0*nsamples[i])-ao3[i]*ao3[i]/(1.0*nsamples[i]*nsamples[i]))/(1.0*autocorr3[0]*autocorr3[0]);
 
-      fprintf(fp,"%d %.16f %.16f %.16f %.16f %.16f %.16f\n",i,autocorr1[i], sqrt(autoerr1[i]/(1.0*nsamples[i]))+sqrt(eo1/nautocorr),autocorr2[i],sqrt(autoerr2[i]/(1.0*nsamples[i]))+sqrt(eo2/nautocorr), autocorr3[i], sqrt(autoerr3[i]/(1.0*nsamples[i]))+sqrt(eo3/nautocorr));
+      fprintf(fp,"%d %.16f %.16f %.16f %.16f %.16f %.16f\n",i,autocorr1[i], sqrt(autoerr1[i]/(1.0*nsamples[i])),autocorr2[i],sqrt(autoerr2[i]/(1.0*nsamples[i])), autocorr3[i], sqrt(autoerr3[i]/(1.0*nsamples[i])));
     }
     fclose(fp);
 
