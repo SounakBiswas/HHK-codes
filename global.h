@@ -2,15 +2,15 @@
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
-#define LX 4
+#define LX 8
 #define LY LX
 #define LZ LX
 #define NCELLS LX*LY*LZ 
 #define NSITES 12*NCELLS
 #define J2 1
-#define TEMP 1.0
-#define WARMUP 1000
-#define MCSTEPS 1000
+#define TEMP 0.5
+#define WARMUP 10000
+#define MCSTEPS 10000
 #define RELAX_STEPS 5
 #define BINSIZE 10
 #define SFACM 1

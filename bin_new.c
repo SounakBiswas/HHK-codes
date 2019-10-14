@@ -1,6 +1,6 @@
 #include "global.h"
 double min(double a,double b){
-	return a*(a<b)+b*(b<=a);
+  return a*(a<b)+b*(b<=a);
 }
 void measure_sq(){
   sq_measure++;
@@ -13,52 +13,63 @@ void measure_sq(){
   int mcell;// unit cell at -q
   int strides[12]={0,12,23,33,42,50,57,63,68,72,75,77};
   for(i=0;i<12;i++){
-     for(j=i;j<12;j++){
-       idx=strides[i]+j-i;
-	 for(x=0;x<lx;x++){
-	   for(y=0;y<ly;y++){
-	    for(z=0;z<lz;z++) { 
-	      cell=x+lx*y+lx*ly*z;
-	      //printf("lprep: %d %d %d \n",lx,ly,lz);
-	      //printf("prep: %d %d %d \n",x,y,z);
-	      mcell=(lx-x)%lx+((ly-y)%ly)*lx+((lz-z)%lz)*lx*ly;
-	      idx1=12*cell+i;
-	      idx2=12*mcell+j;
-	      //if(idx2>=nsites){
-	      //  printf("%d %d %d %d\n",i,j,cell,mcell);
-	      //  printf("%d %d %d \n",x,y,z);
-	      //  printf("%d %d %d \n",lx,ly,lz);
-	      //  printf("%d %d %d \n",(lx-x)%lx,(ly-y)%ly,(lz-z)%lz);
-	      //}
-	      ////assert(idx1<nsites);
-	      ////assert(idx2<nsites);
-	      //assert(idx<78*ncells);
+    for(j=i;j<12;j++){
+      idx=strides[i]+j-i;
+      for(x=0;x<lx;x++){
+	for(y=0;y<ly;y++){
+	  for(z=0;z<lz;z++) { 
+	    cell=x+lx*y+lx*ly*z;
+	    //printf("lprep: %d %d %d \n",lx,ly,lz);
+	    //printf("prep: %d %d %d \n",x,y,z);
+	    mcell=(lx-x)%lx+((ly-y)%ly)*lx+((lz-z)%lz)*lx*ly;
+	    idx1=12*cell+i;
+	    idx2=12*mcell+j;
+	    //if(idx2>=nsites){
+	    //  printf("%d %d %d %d\n",i,j,cell,mcell);
+	    //  printf("%d %d %d \n",x,y,z);
+	    //  printf("%d %d %d \n",lx,ly,lz);
+	    //  printf("%d %d %d \n",(lx-x)%lx,(ly-y)%ly,(lz-z)%lz);
+	    //}
+	    ////assert(idx1<nsites);
+	    ////assert(idx2<nsites);
+	    //assert(idx<78*ncells);
 
-              sqasqbre[idx*NCELLS+cell]+= (sxqr[idx1]*sxqr[idx2]-sxqi[idx1]*sxqi[idx2]);
-              sqasqbre[idx*NCELLS+cell]+= (syqr[idx1]*syqr[idx2]-syqi[idx1]*syqi[idx2]);
-              sqasqbre[idx*NCELLS+cell]+= (szqr[idx1]*szqr[idx2]-szqi[idx1]*szqi[idx2]);
+	    sqasqbre[idx*NCELLS+cell]+= (sxqr[idx1]*sxqr[idx2]-sxqi[idx1]*sxqi[idx2]);
+	    sqasqbre[idx*NCELLS+cell]+= (syqr[idx1]*syqr[idx2]-syqi[idx1]*syqi[idx2]);
+	    sqasqbre[idx*NCELLS+cell]+= (szqr[idx1]*szqr[idx2]-szqi[idx1]*szqi[idx2]);
 
-              sqasqbim[idx*NCELLS+cell]+= (sxqr[idx1]*sxqi[idx2]+sxqi[idx1]*sxqr[idx2]);
-              sqasqbim[idx*NCELLS+cell]+= (syqr[idx1]*syqi[idx2]+syqi[idx1]*syqr[idx2]);
-              sqasqbim[idx*NCELLS+cell]+= (szqr[idx1]*szqi[idx2]+szqi[idx1]*szqr[idx2]);
-	    }//z
-	   }//y
-	 }//x
-     }//j
+	    sqasqbim[idx*NCELLS+cell]+= (sxqr[idx1]*sxqi[idx2]+sxqi[idx1]*sxqr[idx2]);
+	    sqasqbim[idx*NCELLS+cell]+= (syqr[idx1]*syqi[idx2]+syqi[idx1]*syqr[idx2]);
+	    sqasqbim[idx*NCELLS+cell]+= (szqr[idx1]*szqi[idx2]+szqi[idx1]*szqr[idx2]);
+	  }//z
+	}//y
+      }//x
+    }//j
   }//i
 
   if(sq_measure%(sq_samples/5)==0){
     FILE *fp;
     for(i=0;i<12;i++){
-       for(j=0;j<=i;j++){
-         idx=strides[i]+j;
-	 sprintf(sfacname,"%si%dj%d.dat",sfacnamepref,i,j);
-	 fp=fopen(sfacname,"w");
-	 for(cell=0;cell<NCELLS;cell++)
-	   fprintf(fp,"%f %f\n",sqasqbre[idx*NCELLS+cell],sqasqbim[idx*NCELLS+cell]);
+      for(j=0;j<=i;j++){
+	idx=strides[i]+j;
+	sprintf(sfacname,"%si%dj%d.dat",sfacnamepref,i,j);
+	fp=fopen(sfacname,"w");
+	for(x=0;x<=lx;x++){
+	  for(y=0;y<=ly;y++){
+	    for(z=0;z<=lz;z++) { 
+	      cell=x+y*lx+z*lx*ly;
+	      mx=(mx==lx)?lx/2:(x+lx/2)%lx;
+	      my=(my==ly)?ly/2:(y+ly/2)%ly;
+	      mz=(mz==lz)?lz/2:(z+lz/2)%lz;
+	      mcell=mx+lx*my+mz*lx*ly;
 
-       }
-       fclose(fp);
+	      fprintf(fp,"%f %f\n",sqasqbre[idx*NCELLS+mcell],sqasqbim[idx*NCELLS+mcell]);
+	    }
+	  }
+	}
+      fclose(fp);
+
+      }
     }
 
   }
@@ -104,7 +115,7 @@ void autocorr(double obs1, double obs2,double obs3){
   o1list[pos]=obs1;
   o2list[pos]=obs2;
   o3list[pos]=obs3;
-  
+
   for(i=0;i<min(nautocorr,taumax);i++){
 
     int pos2= (taumax+pos-i)%taumax;

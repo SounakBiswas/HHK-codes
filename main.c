@@ -48,6 +48,7 @@ void main(){
 	    measure_sq();
 
     }
-    //printf("%d\n",i);
+    if(i%200==0)
+    printf("%d\n",i);
   }
 }
