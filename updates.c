@@ -25,11 +25,11 @@ void over_relaxation(){
     hdoth=hx*hx+hy*hy+hz*hz;
     sdoth=sx[i]*hx+sy[i]*hy+sz[i]*hz;
     //BE CAREFUL
-    if(hdoth>10e-10){
+    //if(hdoth>10e-10){
     sx[i]=2*sdoth*hx/(hdoth)-sx[i];
     sy[i]=2*sdoth*hy/(hdoth)-sy[i];
     sz[i]=2*sdoth*hz/(hdoth)-sz[i];
-    }
+   // }
   }
 
 }
@@ -101,7 +101,7 @@ void heatbath(){
       hz+= -sz[neigh[6*i+j]];
     }
 
-    for(j=5; j<6; j++){
+    for(j=4; j<6; j++){
       hx+= -j2*sx[neigh[6*i+j]];
       hy+= -j2*sy[neigh[6*i+j]];
       hz+= -j2*sz[neigh[6*i+j]];
@@ -109,5 +109,5 @@ void heatbath(){
     energy+= (sx[i]*hx+sy[i]*hy+sz[i]*hz)/2.0;
   }
   energy2=energy*energy;
-
 }
+

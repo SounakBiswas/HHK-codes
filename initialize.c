@@ -1,5 +1,6 @@
 #include "global.h"
-#define next_nbr(x,y,z,i,j,k) (LX+x+i)%LX+ ((LY+y+j)%LY)*LX +((LZ+z+k)%LZ)*LX*LY;
+//#define next_nbr(x,y,z,i,j,k) (LX+x+i)%LX+ ((LY+y+j)%LY)*LX +((LZ+z+k)%LZ)*LX*LY
+#define next_nbr(x,y,z,i,j,k) ((LX+x+i)%LX+ ((LY+y+j)%LY)*LX +((LZ+z+k)%LZ)*LX*LY)
 
 void initialize(){
   int i,j;
@@ -21,6 +22,8 @@ void initialize(){
   binno=0;
   nmeasure=0;
   nautocorr=0;
+  int seed=SEED;
+  srand(seed);
   for(i=0;i<nsites;i++){
 	  theta=M_PI*rand()/(1.0*RAND_MAX);
           phi=2*M_PI*rand()/(1.0*RAND_MAX);
@@ -33,23 +36,28 @@ void initialize(){
   sprintf(sfacnamepref,"./sfacs/sfac_L%dT%.4fJ2%.4f",lx,temp,j2);
   double hx,hy,hz;
   
-  energy=0;
-  for(i=0;i<nsites;i++){ 
-    hx=hy=hz=0;
-    for(j=0; j<4; j++){
-      hx+= -sx[neigh[6*i+j]];
-      hy+= -sy[neigh[6*i+j]];
-      hz+= -sz[neigh[6*i+j]];
-    }
-
-    for(j=5; j<6; j++){
-      hx+= -j2*sx[neigh[6*i+j]];
-      hy+= -j2*sy[neigh[6*i+j]];
-      hz+= -j2*sz[neigh[6*i+j]];
-    }
-    energy+= (sx[i]*hx+sy[i]*hy+sz[i]*hz)/2.0;
-  }
-  energy2=energy*energy;
+//  energy=0;
+//  FILE *fp=fopen("data2.dat","w");
+//  for(i=0;i<nsites;i++){ 
+//    hx=hy=hz=0;
+//    for(j=0; j<4; j++){
+//      hx+= -sx[neigh[6*i+j]];
+//      hy+= -sy[neigh[6*i+j]];
+//      hz+= -sz[neigh[6*i+j]];
+//    }
+//
+//    for(j=4; j<6; j++){
+//      hx+= -j2*sx[neigh[6*i+j]];
+//      hy+= -j2*sy[neigh[6*i+j]];
+//      hz+= -j2*sz[neigh[6*i+j]];
+//    }
+//  fprintf(fp,"%d %f %f %f %f %f %f\n",i,sx[i],sy[i],sz[i],hx,hy,hz);
+//
+//    energy+= (sx[i]*hx+sy[i]*hy+sz[i]*hz)/2.0;
+//  }
+//  fclose(fp);
+//  printf("starting energy=%f\n",energy);
+//  energy2=energy*energy;
 
   for(i=0;i<78*NCELLS;i++)
     sqasqbre[i]=sqasqbim[i]=0.0;
