@@ -2,4 +2,7 @@
 *.dat
 *.txt
 *.out
+./outfiles
+*.sh
+
 
