@@ -50,8 +50,8 @@ void measure_sq(){
   if(sq_measure%(sq_samples/5)==0){
     FILE *fp;
     for(i=0;i<12;i++){
-      for(j=0;j<=i;j++){
-	idx=strides[i]+j;
+      for(j=i;j<12;j++){
+	idx=strides[i]+j-i;
 	sprintf(sfacname,"%si%dj%d.dat",sfacnamepref,i,j);
 	fp=fopen(sfacname,"w");
 	for(x=0;x<=lx;x++){
