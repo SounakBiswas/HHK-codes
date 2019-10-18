@@ -25,11 +25,11 @@ void over_relaxation(){
     hdoth=hx*hx+hy*hy+hz*hz;
     sdoth=sx[i]*hx+sy[i]*hy+sz[i]*hz;
     //BE CAREFUL
-    //if(hdoth>10e-10){
+    if(hdoth>10e-10){
     sx[i]=2*sdoth*hx/(hdoth)-sx[i];
     sy[i]=2*sdoth*hy/(hdoth)-sy[i];
     sz[i]=2*sdoth*hz/(hdoth)-sz[i];
-   // }
+    }
   }
 
 }
@@ -65,7 +65,7 @@ void heatbath(){
     h_xy=sqrt(h_xy);
     //Be Careful
     
-    if(hdoth>10e-10 && h_xy>10e-10){
+    if(hdoth>10e-8 && h_xy>10e-8){
 
     thetaH=acos(hz/sqrt(hdoth));
     sinthetaH=h_xy/modH;
@@ -76,8 +76,14 @@ void heatbath(){
 
     phi=(double)(rand()/(1.0*RAND_MAX))*2*M_PI;
     double r=(double)(rand()/(1.0*RAND_MAX))*1;
-    costheta=(1/(beta*modH))*log(1+r*(exp(2*beta*modH)-1.0)) -1.0;
+    costheta=(1/(beta*modH))*logl(1+r*(expl(2*beta*modH)-1.0)) -1.0;
+    if(isinf(costheta))
+      costheta=(1/(beta*modH))*( log(r)+2*beta*modH)-1.0;
+    
     double sintheta=sqrt(1-costheta*costheta);
+    if(isnan(sintheta))
+      sintheta=0;
+
     sinthetaH=sin(thetaH);
     sinphi=sin(phi);
     cosphi=cos(phi);
