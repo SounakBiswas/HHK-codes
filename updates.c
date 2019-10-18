@@ -65,13 +65,21 @@ void heatbath(){
     h_xy=sqrt(h_xy);
     //Be Careful
     
-    if(hdoth>10e-8 && h_xy>10e-8){
+    if(hdoth>10e-10 ){
 
     thetaH=acos(hz/sqrt(hdoth));
     sinthetaH=h_xy/modH;
     costhetaH=hz/modH;
-    cosphiH=hx/h_xy;
-    sinphiH=hy/h_xy;
+    if(fabs(h_xy)>10e-10){
+      cosphiH=hx/h_xy;
+      sinphiH=hy/h_xy;
+    }
+    else{
+      cosphiH=1;//does not really matter
+      sinphiH=0;
+    
+    }
+	
 
 
     phi=(double)(rand()/(1.0*RAND_MAX))*2*M_PI;
