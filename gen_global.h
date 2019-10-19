@@ -14,8 +14,10 @@
 #define RELAX_STEPS 10
 #define BINSIZE 200
 #define SFACM 1
-#define SEED 10
+#define SEED #SEED#
 #define TAUMAX 100
+#define FILENUM #NUM#
+
 
 int neigh[NSITES*6];
 int sq_samples;
