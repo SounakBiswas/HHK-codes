@@ -67,7 +67,7 @@ void measure_sq(){
 	    }
 	  }
 	}
-      fclose(fp);
+	fclose(fp);
 
       }
     }
@@ -154,19 +154,20 @@ void autocorr(double obs1, double obs2,double obs3){
       autoerr1[i]=sqrt(autoerr1[i]/(1.0*nsamples[i]));
       autoerr2[i]=sqrt(autoerr2[i]/(1.0*nsamples[i]));
       autoerr3[i]=sqrt(autoerr3[i]/(1.0*nsamples[i]));
-    for(i=1;i<taumax;i++){ 
-      autoerr1[i]=autoerr1[i]/autocorr1[0]-autocorr1[i]*autoerr1[0]/(autocorr1[0]*autocorr1[0]);
-      autoerr2[i]=autoerr2[i]/autocorr2[0]-autocorr2[i]*autoerr2[0]/(autocorr2[0]*autocorr2[0]);
-      autoerr3[i]=autoerr3[i]/autocorr3[0]-autocorr3[i]*autoerr3[0]/(autocorr3[0]*autocorr3[0]);
+      for(i=1;i<taumax;i++){ 
+	autoerr1[i]=autoerr1[i]/autocorr1[0]-autocorr1[i]*autoerr1[0]/(autocorr1[0]*autocorr1[0]);
+	autoerr2[i]=autoerr2[i]/autocorr2[0]-autocorr2[i]*autoerr2[0]/(autocorr2[0]*autocorr2[0]);
+	autoerr3[i]=autoerr3[i]/autocorr3[0]-autocorr3[i]*autoerr3[0]/(autocorr3[0]*autocorr3[0]);
 
-      autocorr1[i]=autocorr1[i]/autocorr1[0];
-      autocorr2[i]=autocorr2[i]/autocorr2[0];
-      autocorr3[i]=autocorr3[i]/autocorr3[0];
+	autocorr1[i]=autocorr1[i]/autocorr1[0];
+	autocorr2[i]=autocorr2[i]/autocorr2[0];
+	autocorr3[i]=autocorr3[i]/autocorr3[0];
+      }
+      autocorr1[0]=autocorr2[0]=autocorr3[0]=1;
+      for(i=0;i<taumax;i++) 
+	fprintf(fp,"%d %.16f %.16f %.16f %.16f %.16f %.16f\n",i,autocorr1[i],autoerr1[i],autocorr2[i],autoerr2[i], autocorr3[i],autoerr3[i]);
+      fclose(fp);
+
     }
-    autocorr1[0]=autocorr2[0]=autocorr3[0]=1;
-    for(i=0;i<taumax;i++) 
-      fprintf(fp,"%d %.16f %.16f %.16f %.16f %.16f %.16f\n",i,autocorr1[i],autoerr1[i],autocorr2[i],autoerr2[i], autocorr3[i],autoerr3[i]);
-    fclose(fp);
-
   }
 }
