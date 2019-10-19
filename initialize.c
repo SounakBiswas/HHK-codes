@@ -1,6 +1,8 @@
 #include "global.h"
 //#define next_nbr(x,y,z,i,j,k) (LX+x+i)%LX+ ((LY+y+j)%LY)*LX +((LZ+z+k)%LZ)*LX*LY
 #define next_nbr(x,y,z,i,j,k) ((LX+x+i)%LX+ ((LY+y+j)%LY)*LX +((LZ+z+k)%LZ)*LX*LY)
+void init_genrand64(unsigned long long);
+double genrand64_real2(void);
 
 void initialize(){
   int i,j;
@@ -23,10 +25,10 @@ void initialize(){
   nmeasure=0;
   nautocorr=0;
   int seed=SEED;
-  srand(seed);
+  init_genrand64(seed);
   for(i=0;i<nsites;i++){
-	  theta=M_PI*rand()/(1.0*RAND_MAX);
-          phi=2*M_PI*rand()/(1.0*RAND_MAX);
+	  theta=M_PI*genrand64_real2();
+          phi=2*M_PI*genrand64_real2();
 	  sz[i]=cos(theta);
 	  sx[i]=sin(theta)*cos(phi);
 	  sy[i]=sin(theta)*sin(phi);

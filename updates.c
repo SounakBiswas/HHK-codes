@@ -1,5 +1,6 @@
 #include "global.h" 
 #include "assert.h" 
+double genrand64_real2(void); 
 void over_relaxation(){
   int i;
   int j;
@@ -7,7 +8,7 @@ void over_relaxation(){
   double sdoth,hdoth;
   int site;
   for(site=0;site<nsites;site++){
-    i=(int)((1.0*rand())/((double)(RAND_MAX+1.0))*nsites);
+    i=(int)(genrand64_real2()*nsites);
     hx=hy=hz=0;
     for(j=0; j<4; j++){
       hx+= -sx[neigh[6*i+j]];
@@ -46,7 +47,7 @@ void heatbath(){
   double tempsx,tempsy;
   double h_xy;
   for(site=0;site<nsites;site++){
-    i=(int)((1.0*rand())/((double)(RAND_MAX+1.0))*nsites);
+    i=(int)(genrand64_real2()*nsites);
     hx=hy=hz=0;
     for(j=0; j<4; j++){
       hx+= -sx[neigh[6*i+j]];
@@ -82,8 +83,8 @@ void heatbath(){
 	
 
 
-    phi=(double)(rand()/(1.0*RAND_MAX))*2*M_PI;
-    double r=(double)(rand()/(1.0*RAND_MAX))*1;
+    phi=(double)(genrand64_real2()*2*M_PI);
+    double r=(genrand64_real2());
     costheta=(1/(beta*modH))*logl(1+r*(expl(2*beta*modH)-1.0)) -1.0;
     if(isinf(costheta))
       costheta=(1/(beta*modH))*( log(r)+2*beta*modH)-1.0;
