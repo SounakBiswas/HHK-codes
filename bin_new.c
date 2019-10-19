@@ -104,7 +104,7 @@ void autocorr(double obs1, double obs2,double obs3){
   static double avo1[TAUMAX],avo2[TAUMAX],avo3[TAUMAX];
   static double del_avo1[TAUMAX],del_avo2[TAUMAX],del_avo3[TAUMAX];
   static double autocorr1[TAUMAX],autocorr2[TAUMAX],autocorr3[TAUMAX],autoerr1[TAUMAX],autoerr2[TAUMAX],autoerr3[TAUMAX];
-  static int nsamples[TAUMAX];
+  static double nsamples[TAUMAX];
   int i;
 
 
@@ -147,19 +147,25 @@ void autocorr(double obs1, double obs2,double obs3){
       autocorr2[i]=(ao2[i]/(1.0*nsamples[i]))-avo2[i]*del_avo2[i]/(1.0*(nsamples[i]*nsamples[i]));
       autocorr3[i]=(ao3[i]/(1.0*nsamples[i]))-avo3[i]*del_avo3[i]/(1.0*(nsamples[i]*nsamples[i]));
 
+      autoerr1[i]=(aeo1[i]/(1.0*nsamples[i])-ao1[i]*ao1[i]/(1.0*nsamples[i]*nsamples[i]));
+      autoerr2[i]=(aeo2[i]/(1.0*nsamples[i])-ao2[i]*ao2[i]/(1.0*nsamples[i]*nsamples[i]));
+      autoerr3[i]=(aeo3[i]/(1.0*nsamples[i])-ao3[i]*ao3[i]/(1.0*nsamples[i]*nsamples[i]));
 
-      autoerr1[i]=(aeo1[i]/(1.0*nsamples[i])-ao1[i]*ao1[i]/(1.0*nsamples[i]*nsamples[i]))/(1.0*autocorr1[0]*autocorr1[0]);
-      autoerr2[i]=(aeo2[i]/(1.0*nsamples[i])-ao2[i]*ao2[i]/(1.0*nsamples[i]*nsamples[i]))/(1.0*autocorr2[0]*autocorr2[0]);
-      autoerr3[i]=(aeo3[i]/(1.0*nsamples[i])-ao3[i]*ao3[i]/(1.0*nsamples[i]*nsamples[i]))/(1.0*autocorr3[0]*autocorr3[0]);
-    }
+      autoerr1[i]=sqrt(autoerr1[i]/(1.0*nsamples[i]));
+      autoerr2[i]=sqrt(autoerr2[i]/(1.0*nsamples[i]));
+      autoerr3[i]=sqrt(autoerr3[i]/(1.0*nsamples[i]));
     for(i=1;i<taumax;i++){ 
+      autoerr1[i]=autoerr1[i]/autocorr1[0]-autocorr1[i]*autoerr1[0]/(autocorr1[0]*autocorr1[0]);
+      autoerr2[i]=autoerr2[i]/autocorr2[0]-autocorr2[i]*autoerr2[0]/(autocorr2[0]*autocorr2[0]);
+      autoerr3[i]=autoerr3[i]/autocorr3[0]-autocorr3[i]*autoerr3[0]/(autocorr3[0]*autocorr3[0]);
+
       autocorr1[i]=autocorr1[i]/autocorr1[0];
       autocorr2[i]=autocorr2[i]/autocorr2[0];
       autocorr3[i]=autocorr3[i]/autocorr3[0];
     }
     autocorr1[0]=autocorr2[0]=autocorr3[0]=1;
     for(i=0;i<taumax;i++) 
-      fprintf(fp,"%d %.16f %.16f %.16f %.16f %.16f %.16f\n",i,autocorr1[i], sqrt(autoerr1[i]/(1.0*nsamples[i])),autocorr2[i],sqrt(autoerr2[i]/(1.0*nsamples[i])), autocorr3[i], sqrt(autoerr3[i]/(1.0*nsamples[i])));
+      fprintf(fp,"%d %.16f %.16f %.16f %.16f %.16f %.16f\n",i,autocorr1[i],autoerr1[i],autocorr2[i],autoerr2[i], autocorr3[i],autoerr3[i]);
     fclose(fp);
 
   }
