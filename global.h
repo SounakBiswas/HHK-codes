@@ -7,14 +7,17 @@
 #define LZ LX
 #define NCELLS LX*LY*LZ 
 #define NSITES 12*NCELLS
-#define J2 1
-#define TEMP 0.5
-#define WARMUP 10000
-#define MCSTEPS 10000
-#define RELAX_STEPS 5
-#define BINSIZE 10
+#define J2 1.0000
+#define TEMP 0.2000
+#define WARMUP 50000
+#define MCSTEPS 500000
+#define RELAX_STEPS 10
+#define BINSIZE 200
 #define SFACM 1
-#define TAUMAX 20
+#define SEED 11
+#define TAUMAX 100
+#define FILENUM 10
+
 
 int neigh[NSITES*6];
 int sq_samples;

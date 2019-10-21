@@ -33,9 +33,9 @@ void initialize(){
 	  sx[i]=sin(theta)*cos(phi);
 	  sy[i]=sin(theta)*sin(phi);
   }
-  sprintf(binfname,"./outfiles/bin_L%dT%.4fJ2%.4f.dat",lx,temp,j2);
-  sprintf(autofname,"./outfiles/auto_L%dT%.4fJ2%.4f.dat",lx,temp,j2);
-  sprintf(sfacnamepref,"./sfacs/sfac_L%dT%.4fJ2%.4f",lx,temp,j2);
+  sprintf(binfname,"./outfiles/bin_L%dT%.4fJ2%.4fseed%d.dat",lx,temp,j2,FILENUM);
+  sprintf(autofname,"./outfiles/auto_L%dT%.4fJ2%.4fseed%d.dat",lx,temp,j2,FILENUM);
+  sprintf(sfacnamepref,"./sfacs/sfac_L%dT%.4fJ2%.4fseed%d",lx,temp,j2,FILENUM);
   double hx,hy,hz;
   
 //  energy=0;
