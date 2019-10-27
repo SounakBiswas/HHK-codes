@@ -63,7 +63,7 @@ void measure_sq(){
 	      mz=(mz==lz)?lz/2:(z+lz/2)%lz;
 	      mcell=mx+lx*my+mz*lx*ly;
 
-	      fprintf(fp,"%f %f\n",sqasqbre[idx*NCELLS+mcell],sqasqbim[idx*NCELLS+mcell]);
+	      fprintf(fp,"%f %f\n",sqasqbre[idx*NCELLS+mcell]/(1.0*(double)sq_measure),sqasqbim[idx*NCELLS+mcell]/(1.0*(double)sq_measure));
 	    }
 	  }
 	}

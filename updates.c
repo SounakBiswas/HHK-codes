@@ -44,7 +44,7 @@ void heatbath(){
   double costheta,phi,modH;
   double costhetaH,sinthetaH, cosphiH, sinphiH;
   double sintheta,sinphi,cosphi;
-  double tempsx,tempsy;
+  double tempsx,tempsy,tempsz;
   double h_xy;
   for(site=0;site<nsites;site++){
     i=(int)(genrand64_real2()*nsites);
@@ -97,12 +97,13 @@ void heatbath(){
     sinphi=sin(phi);
     cosphi=cos(phi);
 
-    tempsx=costheta*sinthetaH+sintheta*costhetaH+cosphi;
+    tempsx=costhetaH*sintheta*cosphi +sinthetaH*costheta;
     tempsy=sintheta*sinphi;
+    tempsz=-sinthetaH*sintheta*cosphi +costhetaH*costheta;
 
-    sx[i]=tempsx*cosphiH-tempsy*sinphiH;
-    sy[i]=tempsx*sinphiH+tempsy*cosphiH;
-    sz[i]=costheta*costhetaH-sintheta*sinthetaH*cosphi;
+    sx[i]=cosphiH*tempsx-sinphiH*tempsy;
+    sy[i]=sinphiH*tempsx+cosphiH*tempsy;
+    sz[i]=tempsz;
     }
 
 
